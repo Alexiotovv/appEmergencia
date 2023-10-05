@@ -18,7 +18,9 @@ return new class extends Migration
             $table->string('celular', 200)->default('');
             $table->string('tipo', 100)->default('');
             $table->tinyInteger('status')->default(0);
-            
+            $table->string('atendidopor', 100)->default('');
+            $table->date('fecha')->nullable();
+            $table->time('hora')->nullable();
             $table->timestamps();
         });
     }

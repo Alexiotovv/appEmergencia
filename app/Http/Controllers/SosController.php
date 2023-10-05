@@ -21,7 +21,8 @@ class SosController extends Controller
     }
 
     function listarsos(){
-        $sos = DB::table('sos')->whereIn('status',[0,1])->orderby('id','desc')->get();
+        $sos = DB::table('sos')->orderBy('status')->orderByDesc('id')
+        ->take(50)->get();
         return response()->json($sos);
     }
 
@@ -42,7 +43,9 @@ class SosController extends Controller
         $obj->latitud=request('latitud');
         $obj->longitud=request('longitud');#
         $obj->celular=request('celular');#
-        $obj->tipo=request('tipo');#
+        $obj->tipo=request('tipo');
+        $obj->fecha=request('fecha');
+        $obj->hora=request('hora');
         //status se guarda por defecto 0 y 
         //atendido por vacío hasta que un poli envie el rescate
         $obj->save();
@@ -75,6 +78,7 @@ class SosController extends Controller
     {
         $obj= sos::findOrFail($id);
         $obj->status=$estado;
+        $obj->atendidopor=auth()->user()->name;
         $obj->save();
         $data =['msje'=>'ok'];
         return response()->json($data);

@@ -39,6 +39,8 @@
                     <input type="text" name="latitud" id="latitud" hidden>
                     <input type="text" name="longitud" id="longitud" hidden>
                     <input type="text" name="tipo" id="tipo" hidden>
+                    <input type="text" name="fecha" id="fecha" hidden>
+                    <input type="text" name="hora" id="hora" hidden>
                     <input type="text" name="celular" id="celular" value="991785556" hidden>
                 </form>
 
@@ -48,7 +50,6 @@
             <h3 style="color: white">TOCA 5 VECES LA IMAGEN PARA PEDIR UN SOS</h3>
         </div>
     </div>
-
 
     <div class="modal fade" id="modalBanner" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -83,7 +84,18 @@
 @endsection
 @section('extra_js')
     <script>
-         if (navigator.geolocation) {
+
+        setInterval(muestrahora, 1000);
+        function muestrahora() { 
+            var hoy = new Date();
+            hora = ('0' + hoy.getHours()).slice(-2) + ':' + ('0' + hoy.getMinutes()).slice(-2);
+            document.getElementById("hora").value = hora;
+        }
+        var fecha = new Date();
+        document.getElementById("fecha").value = fecha.toJSON().slice(0, 10);
+
+
+        if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(posicion,error,options);
 
         }else{

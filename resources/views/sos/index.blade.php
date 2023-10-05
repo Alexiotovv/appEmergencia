@@ -13,7 +13,7 @@ crossorigin=""/>
     <span class="badge bg-danger">Activos: <strong>{{$activos}}</strong></span>
     <span class="badge bg-warning">En rescate: <strong>{{$enrescate}}</strong></span>
     <span class="badge bg-secondary">Cerrado: <strong>{{$cerrados}}</strong></span>
-
+    <a href="" class="btn btn-primary btn-sm" id="clear_markers">Limpiar Markers</a>
     <div class="row">
         
         <div class="col-md-8"">
@@ -29,9 +29,12 @@ crossorigin=""/>
                             <thead>
                                 <tr>                                
                                     <th>#</th>
-                                    <th>latitud,longitud</th>
-                                    <th>tipo</th>
                                     <th>status</th>
+                                    <th>fecha</th>
+                                    <th>hora</th>
+                                    <th>tipo</th>
+                                    <th>atendipor</th>
+                                    <th>latitud,longitud</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,7 +51,12 @@ crossorigin=""/>
 @section('extra_js')
     {{-- Mapa --}}
     <script>
-    
+        $("#clear_markers").on("click",function (e) { 
+            e.preventDefault();
+            //alert("hey");
+            
+        })
+
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(posicion,error,options);
 
@@ -69,22 +77,9 @@ crossorigin=""/>
         mapita=false;
 
         function posicion(geolocationPosition) {  
-            let coords=geolocationPosition.coords;
-            // $("#latitud").val(coords.latitude);
-            // $("#longitud").val(coords.longitude);
-            // $("#latitud").prop('readonly',true);
-            // $("#longitud").prop('readonly',true);
-
-            // var container = L.DomUtil.get('map');
-            // if(container != null){
-            // container._leaflet_id = null;
-            // }
-
-            //esto es la ubicación del propio host
-            // var marker = L.marker([coords.latitude,coords.longitude],{draggable: true,}).addTo(map);
-            // marker.bindPopup("<h2>Cel. 96665965</h2>").openPopup();
-            
+            let coords=geolocationPosition.coords;            
             var map = L.map('map').setView([coords.latitude,coords.longitude], 14);
+
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 20,
                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -108,8 +103,8 @@ crossorigin=""/>
             shadowSize: [68, 60],
             shadowAnchor: [22, 94]
             });
-            var greenIcon = L.icon({
-            iconUrl: '../assets/images/icons/marker-icon-green.png',
+            var greyIcon = L.icon({
+            iconUrl: '../assets/images/icons/marker-icon-grey.png',
             iconSize: [25, 40],
             iconAnchor: [22, 94],
             popupAnchor: [-3, -76],
@@ -117,6 +112,9 @@ crossorigin=""/>
             shadowSize: [68, 60],
             shadowAnchor: [22, 94]
             });
+
+            
+
 
             pone_marcador();
 
@@ -129,7 +127,7 @@ crossorigin=""/>
                     success: function (response) {
                         // console.log(response);
                         response.forEach(element => {
-                            
+
                             if (element.status==0) {
                                 badge='<span class="badge bg-danger" id='+ element.id+0 +'>Estado: Activo</span>'+ '<br>';
                                 colorIcon=redIcon;
@@ -137,25 +135,27 @@ crossorigin=""/>
                                     badge='<span class="badge bg-warning" id='+element.id+1+ '>Estado: En rescate</span>'+ '<br>';
                                     colorIcon=goldIcon;
                             }else if (element.status==2){
-                                badge='<span class="badge bg-secondary">Estado: Cerrado</span>'+element.id+2+ '<br>';
-                                colorIcon=greenIcon;
+                                badge='<span class="badge bg-secondary" id=' +element.id+2+ '>Estado: Cerrado</span>' + '<br>';
+                                colorIcon=greyIcon;
                             }
 
                             if (element.status==0) {
-                                botonstatus='<button class="btn btn-danger btn-sm btnEnviarRescate" id="'+ element.id + '")">Enviar rescate</button>';
+                                botonstatus='<button class="btn btn-primary btn-sm btnEnviarRescate" id="'+ element.id + '")">Enviar rescate</button>';
                             }else if (element.status==1){
-                                botonstatus='<button class="btn btn-warning btn-sm btnCerrar" id="'+ element.id + '")">Cerrar</button>';
+                                botonstatus='<button class="btn btn-primary btn-sm btnCerrar" id="'+ element.id + '")">Cerrar Incidencia</button>';
                             }else if (element.status==2){
-                                botonstatus='<button class="btn btn-secondary btn-sm")>Cerrado</button>';
+                                botonstatus='<button class="btn btn-primary btn-sm disabled")>Cerrado</button>';
                             }
 
                             var marker=L.marker([element.latitud, element.longitud], {icon: colorIcon}).addTo(map);
                             marker.bindPopup(
                                 '<p>N°: '+ element.id +'</p>'+
-                                '<h5>Coordenadas: '+element.latitud+' , ' + element.longitud +'</h5>'+ 
-                                '<span class="badge bg-success">Celular: '+ element.celular +'</span>'+ '<br>'+ 
-                                '<span class="badge bg-success">Agente: Pedro</span>'+ '<br>'+ 
-                                badge + '<br>' + 
+                                '<p>Coordenadas: '+element.latitud+' , ' + element.longitud +'</p>'+
+                                'Celular: '+ element.celular + '<br>'+
+                                'Agente:'+ element.atendidopor + '<br>'+
+                                'Fecha: '+ element.fecha +'<br>'+
+                                'Hora: '+ element.hora +'</span>'+ '<br>'+
+                                badge + '<br>' +
                                 botonstatus
                             ).openPopup();
                         });
@@ -184,10 +184,27 @@ crossorigin=""/>
                 $("#"+ id+0).text("Estado: En rescate");
                 $("#"+ id+0).removeClass('bg-danger');
                 $("#"+ id+0).addClass('bg-warning');
-                iniciar_mapa();
-            }
-        });
-     })
+                cargar_listarsos();
+                }
+            });
+        })
+
+        $(document).on("click",".btnCerrar",function (e) { 
+        e.preventDefault();
+        id = this.id;
+        status='2';
+        $.ajax({
+            type: "GET",
+            url: "/sos/update/"+id+"/"+status,
+            dataType: "json",
+            success: function (response) {
+                $("#"+ id+1).text("Estado: Cerrado");
+                $("#"+ id+1).removeClass('bg-warning');
+                $("#"+ id+1).addClass('bg-secondary');
+                cargar_listarsos();
+                }
+            });
+        })
     </script>
 
     {{-- ListarSOS --}}
@@ -204,6 +221,7 @@ crossorigin=""/>
                 dataType: "json",
                 success: function (response) {
                     response.forEach(e => {
+                        console.log(e.tipo);
                         if (e.status==0) {
                             badge="<span class='badge bg-danger'>Activo</span>";
                         }else if (e.status==1){
@@ -212,11 +230,13 @@ crossorigin=""/>
                             badge="<span class='badge bg-secondary'>Cerrado</span>";
                         }
                         $("#dtincidencias tbody").append('<tr>'+
-                                '<td>' + e.id +'</td>'+
-                                '<td>' + e.latitud +', '+ e.longitud + '</td>'+
-                                '<td>' + e.tipo +'</td>'+
-                                '<td>' +badge +'</td>'+
-                                // '<td>' + e.status +'</td>'+
+                            '<td>' + e.id +'</td>'+
+                            '<td>' +badge +'</td>'+
+                            '<td>' + e.fecha +'</td>'+
+                            '<td>' + e.hora +'</td>'+
+                            '<td>' + e.tipo +'</td>'+
+                            '<td>' + e.atendidopor +'</td>'+
+                            '<td>' + e.latitud +', '+ e.longitud + '</td>'+
                             '</tr>'
                         );
                     });
@@ -228,6 +248,6 @@ crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
     crossorigin=""></script>
-    <script src="../../../assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
-	<script src="../../../assets/js/table-datatable.js"></script>
+    {{-- <script src="../../../assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+	<script src="../../../assets/js/table-datatable.js"></script> --}}
 @endsection
