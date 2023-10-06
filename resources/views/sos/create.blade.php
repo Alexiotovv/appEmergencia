@@ -38,7 +38,7 @@
                 <form id="frmEnviarSOS">@csrf
                     <input type="text" name="latitud" id="latitud" hidden>
                     <input type="text" name="longitud" id="longitud" hidden>
-                    <input type="text" name="tipo" id="tipo" hidden>
+                    <input type="text" name="tipo" id="tipo">
                     <input type="text" name="fecha" id="fecha" hidden>
                     <input type="text" name="hora" id="hora" hidden>
                     <input type="text" name="celular" id="celular" value="991785556" hidden>

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('atendidopor', 100)->default('');
             $table->date('fecha')->nullable();
             $table->time('hora')->nullable();
+            $table->bigInteger('iduser')->unsigned();
+            $table->foreign('iduser')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

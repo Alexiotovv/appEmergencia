@@ -37,15 +37,18 @@ class SosController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    //para hacer pruebas desde la web site
     public function store(Request $request)
-    {
+    {   
         $obj= new sos();
+        $obj->iduser=auth()->user()->id;
         $obj->latitud=request('latitud');
-        $obj->longitud=request('longitud');#
-        $obj->celular=request('celular');#
+        $obj->longitud=request('longitud');
+        $obj->celular=request('celular');
         $obj->tipo=request('tipo');
         $obj->fecha=request('fecha');
         $obj->hora=request('hora');
+
         //status se guarda por defecto 0 y 
         //atendido por vacío hasta que un poli envie el rescate
         $obj->save();

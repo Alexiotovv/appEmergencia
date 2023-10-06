@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('tipo', 100)->default('');
+            $table->string('tipo', 100)->default('public');
+            $table->string('celular', 255)->default('');
+            $table->string('dni', 20)->default('');
         });
     }
 
@@ -23,6 +25,8 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('tipo');
+            $table->dropColumn('celular');
+            $table->dropColumn('dni');
         });
     }
 };
