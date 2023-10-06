@@ -62,7 +62,11 @@ class SosController extends Controller
      */
     public function show(sos $sos)
     {
-        $sos=sos::all()->take(100);
+        $sos=DB::table('sos')
+        ->leftjoin('users','users.id','=','sos.iduser')
+        ->select('sos.*','users.celular')
+        ->take(100)
+        ->get();
         return response()->json($sos);
     }
 
