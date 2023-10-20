@@ -6,11 +6,14 @@ use App\Models\User;
 use DB;
 class UserController extends Controller
 {
-
     public function index(Request $request)
     {
-        $obj=DB::table('users')->orderBy('id','desc')->get();
-        return view('usuarios.usuario_index',['obj'=>$obj]);   
+        $texto=$request->get('txtBuscar');
+        $obj=User::where('name', 'like','%'.$texto.'%') 
+        ->orderByDesc('id')
+        ->paginate(500);
+        // $obj=DB::table('users')->orderBy('id','desc')->get();
+        return view('usuarios.usuario_index',['obj'=>$obj,'texto'=>$texto]);   
     }
     
     public function edit($id)

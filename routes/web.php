@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SosController;
+use App\Http\Controllers\EstadisticaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,9 +27,10 @@ Route::get('/login',function(){
     return view('usuarios.login');
 })->name('login')->middleware('guest');
 
-Route::get('/home',function(){
-    return view('plantillas.home');
-})->middleware('auth')->name('home');
+Route::get('/home',[LoginController::class,'index'])->middleware('auth')->name('home');
+
+//estadistica
+Route::get('/sos/datos/{ano}', [EstadisticaController::class,'datos'])->middleware(['auth'])->name('sos.datos');
 
 
 //SOS

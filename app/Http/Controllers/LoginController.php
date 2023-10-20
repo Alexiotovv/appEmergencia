@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\login;
+use App\Models\User;
+use App\Models\sos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
@@ -25,12 +27,10 @@ class LoginController extends Controller
                 $request->session()->regenerate();
                 return redirect()->intended('home');
             }
-
             return redirect('/login');
         }else{
             return redirect('/login');
         }
-        
     }
 
         public function logout(Request $request)
@@ -40,6 +40,19 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
         return redirect('login');
     }
+
+    public function index(Request $request)
+    {
+        $years = DB::table('sos')
+        ->select(DB::raw('DISTINCT YEAR(fecha) as year'))
+        ->orderby('year')
+        ->get();
+        $total_users=User::count();
+        $activos_users=User::where('status',1)->count();
+        $total_sos=Sos::count();
+        return view('plantillas.home',['years'=>$years, 'total_users'=>$total_users, 'activos_users'=>$activos_users,'total_sos'=>$total_sos]);
+
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -47,7 +60,6 @@ class LoginController extends Controller
     {
         //
     }
-
     /**
      * Display the specified resource.
      */

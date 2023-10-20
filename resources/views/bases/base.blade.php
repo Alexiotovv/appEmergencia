@@ -60,9 +60,9 @@
                                 <div class="menu-title">Control</div>
                             </a>
                             <ul>
-                                <li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Dashboard</a>
+                                <li> <a href="{{route('home')}}"><i class="bx bx-right-arrow-alt"></i>Dashboard</a>
                                 </li>
-                                <li> <a href="#"><i class="bx bx-right-arrow-alt"></i>SOS</a>
+                                <li> <a href="{{route('sos.index')}}"><i class="bx bx-right-arrow-alt"></i>SOS</a>
                                 </li>
                             </ul>
                         </li>

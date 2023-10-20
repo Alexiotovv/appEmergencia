@@ -6,7 +6,7 @@
 
 @section('content')
 
-    <h5>Lista Usuarios</h5>
+    
     @if (session()->has('guardo')=='si')
     {{-- comprueba si existe el valor en sesión --}}
 
@@ -23,40 +23,62 @@
         </div>
 
     @endif
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover" id="DTUsuarios">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Acción</th>
-                    <th>nombre_usuario</th>
-                    <th>correo</th>
-                    <th>tipo</th>
-                    <th>status</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($obj as $usu)
-                    <tr>
-                        <td>{{ $usu->id }}</td>
-                        <td><a href="/usuarios/edit/{{ $usu->id }}" class="btn btn-warning btn-sm">Editar</a>
-                        <a class="btn btn-danger btn-sm btnCambiarClave">Cambiar Contraseña</a>
-                        </td>
-                        <td>{{ $usu->name }}</td>
-                        <td>{{ $usu->email }}</td>
-                        <td>{{ $usu->tipo }}</td>
-                        <td>
-                            @if ($usu->status=='1')
-                                <p style="color: green;">ACTIVO</p>
-                            @else
-                                <p style="color: rgb(201, 21, 21)">INACTIVO</p>
-                            @endif
-                            
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+    <div class="row">
+        <div class="col-sm-4">
+            Buscar usuario por nombre
+            <form action="{{route('usuarios.index')}}" method="GET">
+            <div class="input-group">
+                    <input type="text" class="form-control form-control-sm" name="txtBuscar" id="txtBuscar" value="{{$texto}}">
+                    <button class="btn btn-primary btn-sm"><i class="bx bx-search"></i>Buscar</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-4">
+            <br>    
+            <a href="{{route('usuarios.index')}}" class="btn btn-warning btn-sm"><i class="bx bx-refresh"></i>Limpiar filtro</a>
+        </div>
+    </div>
+    <h5>Lista Usuarios</h5>
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="DTUsuarios">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Acción</th>
+                            <th>nombre_usuario</th>
+                            <th>correo</th>
+                            <th>tipo</th>
+                            <th>status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($obj as $usu)
+                            <tr>
+                                <td>{{ $usu->id }}</td>
+                                <td><a href="/usuarios/edit/{{ $usu->id }}" class="btn btn-warning btn-sm">Editar</a>
+                                <a class="btn btn-danger btn-sm btnCambiarClave">Cambiar Contraseña</a>
+                                </td>
+                                <td>{{ $usu->name }}</td>
+                                <td>{{ $usu->email }}</td>
+                                <td>{{ $usu->tipo }}</td>
+                                <td>
+                                    @if ($usu->status=='1')
+                                        <p style="color: green;">ACTIVO</p>
+                                    @else
+                                        <p style="color: rgb(201, 21, 21)">INACTIVO</p>
+                                    @endif
+                                    
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                {!! $obj->links() !!}
+            </div>
+
+        </div>
     </div>
 
 
@@ -107,6 +129,7 @@
         </div>
     </form>
 @endsection
+
 @section('extra_js')
     <script src="../../../app_js/crud.js"></script>
     <script src="../../../app_js/usuarios.js"></script>
