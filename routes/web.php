@@ -32,6 +32,15 @@ Route::get('/home',[LoginController::class,'index'])->middleware('auth')->name('
 //estadistica
 Route::get('/sos/datos/{ano}', [EstadisticaController::class,'datos'])->middleware(['auth'])->name('sos.datos');
 
+//RUTAS DE VERIFICACION CORREO
+// Route::group(['middleware' => ['auth', 'verified']], function () {
+//     // Rutas que requieren correo verificado
+//     Route::get('/verify', 'AuthController@verifyEmail')->name('verification.verify');
+
+// });
+
+
+
 
 //SOS
 Route::get('/sos/index', [SosController::class,'index'])->middleware(['auth'])->name('sos.index');
