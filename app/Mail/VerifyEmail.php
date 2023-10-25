@@ -16,15 +16,16 @@ class VerifyEmail extends Mailable
     public function toMail($notifiable)
     {
         $url = route('verification.verify', [
+            'id' => $notifiable->getKey(),
             'token' => $notifiable->verification_token,
         ]);
+
         return (new MailMessage)
             ->line('Por favor, haga clic en el siguiente enlace para verificar su correo electrónico:')
             ->action('Verificar Correo Electrónico', $url)
             ->line('Gracias por usar nuestra aplicación.');
-        
-        
     }
+
 
 
 

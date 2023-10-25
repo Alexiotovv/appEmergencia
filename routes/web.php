@@ -5,17 +5,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SosController;
 use App\Http\Controllers\EstadisticaController;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
+use App\Http\Controllers\AuthVerificationController;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerifyEmail;
 
 
 Route::get('/', function () {
@@ -32,13 +25,19 @@ Route::get('/home',[LoginController::class,'index'])->middleware('auth')->name('
 //estadistica
 Route::get('/sos/datos/{ano}', [EstadisticaController::class,'datos'])->middleware(['auth'])->name('sos.datos');
 
-//RUTAS DE VERIFICACION CORREO
-// Route::group(['middleware' => ['auth', 'verified']], function () {
-//     // Rutas que requieren correo verificado
-//     Route::get('/verify', 'AuthController@verifyEmail')->name('verification.verify');
 
-// });
 
+//email-activation
+// Ruta de verificación de correo
+Route::get('/email/verify/{id}/{token}', [AuthVerificationController::class,'verify'])
+    ->name('verification.verify');
+
+// Ruta de prueba de envío de correo
+Route::get('/send-test-email', function () {
+    $user = App\Models\User::find(12); // Reemplaza con un usuario real de tu base de datos
+        $user->sendEmailVerificationNotification();
+    return "Correo de prueba de verificación enviado.";
+});
 
 
 
