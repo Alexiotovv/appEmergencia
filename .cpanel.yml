@@ -5,5 +5,7 @@
       - /bin/rsync -av public/ $DEPLOYPATH
       - export DEPLOYPATH=/home/aywsolution/web_appemergencias/
       - /bin/rsync -av ./ $DEPLOYPATH
+
+      
       
 
