@@ -8,8 +8,31 @@ use App\Models\sos;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
+use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+
+namespace App\Mail;
+
 class AuthController extends Controller
-{
+{   
+    public function sendResetLinkEmail(Request $request)
+    {
+        $this->validateEmail($request);
+        $status = $this->broker()->sendResetLink(
+            $request->only('email')
+        );
+        if ($status === Password::RESET_LINK_SENT) {
+            return response()->json(['message' => 'Correo de restablecimiento de contraseña enviado']);
+        }
+        return response()->json(['error' => 'No se pudo enviar el correo de restablecimiento de contraseña']);
+
+    }
+
+
     function register(Request $request) {
         // Valida los datos de entrada
         $request->validate([
@@ -34,10 +57,12 @@ class AuthController extends Controller
         $user->tipo = 'public';
         $user->celular = $request->input('celular');
         $user->dni = $request->input('dni');
+        $user->verification_token = Str::random(40); // Genera un token de verificación
         $user->save();
-    
+        // Envía el correo de verificación
+        Mail::to($user)->send(new VerifyEmail($user));
+        
         $token = $user->createToken('auth_token')->plainTextToken;
-    
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer'
