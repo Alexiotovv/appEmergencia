@@ -26,7 +26,6 @@ Route::get('/home',[LoginController::class,'index'])->middleware('auth')->name('
 Route::get('/sos/datos/{ano}', [EstadisticaController::class,'datos'])->middleware(['auth'])->name('sos.datos');
 
 
-
 //email-activation
 // Ruta de verificación de correo
 Route::get('/email/verify/{id}/{token}', [AuthVerificationController::class,'verify'])
@@ -34,7 +33,7 @@ Route::get('/email/verify/{id}/{token}', [AuthVerificationController::class,'ver
 
 // Ruta de prueba de envío de correo
 Route::get('/send-test-email', function () {
-    $user = App\Models\User::find(12); // Reemplaza con un usuario real de tu base de datos
+    $user = App\Models\User::find(10); // Reemplaza con un usuario real de tu base de datos
         $user->sendEmailVerificationNotification();
     return "Correo de prueba de verificación enviado.";
 });

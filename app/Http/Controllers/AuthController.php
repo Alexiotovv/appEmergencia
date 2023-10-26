@@ -14,8 +14,9 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\VerifyEmail;
 
-namespace App\Mail;
+// namespace App\Mail;
 
 class AuthController extends Controller
 {   
@@ -59,11 +60,29 @@ class AuthController extends Controller
         $user->dni = $request->input('dni');
         $user->verification_token = Str::random(40); // Genera un token de verificación
         $user->save();
-        // Envía el correo de verificación
-        Mail::to($user)->send(new VerifyEmail($user));
+
         
+        // Define la variable $url
+        $url = route('verification.verify', [
+            'id' => $user->getKey(),
+            'token' => $user->verification_token,
+        ]);
+
+        // Construye el contenido del correo
+        $emailContent = "Por favor, haga clic en el siguiente enlace para verificar su correo electrónico:\n\n$url\n\nGracias por usar nuestra aplicación.";
+
+        // Envía el correo de verificación
+        Mail::raw($emailContent, function ($message) use ($user) {
+            $message->to($user->email);
+            $message->subject('Verify Email');
+        });
+
+
+
         $token = $user->createToken('auth_token')->plainTextToken;
+        
         return response()->json([
+            'message' => 'Usuario registrado con éxito. Se ha enviado un correo de verificación.',
             'access_token' => $token,
             'token_type' => 'Bearer'
         ]);
