@@ -36,7 +36,7 @@
 
 @if (Route::has('login'))
     @auth
-        @if (Auth::user()->tipo == 'admin')
+        {{-- @if (Auth::user()->tipo == 'admin') --}}
             <!--wrapper-->
             <div class="wrapper">
                 <!--sidebar wrapper -->
@@ -433,10 +433,10 @@
                     <p class="mb-0">Copyright © 2021. All right reserved.</p>
                 </footer>
             </div>
-        @else
+        {{-- @else
             <h5>No tienes permisos, please retírese</h5>
             <a href="https://google.com" class="btn btn-primary">Ok</a>
-        @endif
+        @endif --}}
     @else
         <div class="row" style="padding:50px;" >
             <a class="btn btn-warning" href="{{route('login')}}" style="width: 20%;text-align:center;">Inicie Sesión</a>
