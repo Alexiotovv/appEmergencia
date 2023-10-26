@@ -19,6 +19,8 @@ class VerifyEmail extends Mailable
             'id' => $notifiable->getKey(),
             'token' => $notifiable->verification_token,
         ]);
+        
+        
 
         return (new MailMessage)
             ->line('Por favor, haga clic en el siguiente enlace para verificar su correo electrónico:')
@@ -50,9 +52,9 @@ class VerifyEmail extends Mailable
      */
     // public function content(): Content
     // {
-    //     return new Content(
-    //         view: 'verifyEmail',
-    //     );
+        // return new Content(
+        //     view: 'view.name',
+        // );
     // }
 
     /**
