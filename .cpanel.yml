@@ -1,7 +1,7 @@
 ---
   deployment:
     tasks:
-      - export DEPLOYPATH=/home/gorel/public_html/appemergencias.regionloreto.gob.pe/
+      - export DEPLOYPATH=/home/aywsolution/public_html/appemergencias.aywsolution.com/
       - /bin/rsync -av public/ $DEPLOYPATH
-      - export DEPLOYPATH=/home/gorel/web_appemergencias/
+      - export DEPLOYPATH=/home/aywsolution/web_appemergencias/
       - /bin/rsync -av ./ $DEPLOYPATH
