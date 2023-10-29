@@ -13,14 +13,15 @@ class AuthVerificationController extends Controller
         $user = User::find($id);
 
         if ($user->hasVerifiedEmail()) {
-            return redirect('/home');
+            // return redirect('/home');
+            return view('verifyEmail',['verified'=> 'tu correo ya fue verificado']);
         }
 
         if ($user->markEmailAsVerified()) {
             event(new Verified($user));
+            return view('verifyEmail',['verified'=> 'Gracias por verificar tu correo electrónico']);
         }
-
-        return redirect('/home')->with('verified', true);
+        // return redirect('/home');
     }
 
 }

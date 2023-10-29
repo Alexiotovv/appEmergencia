@@ -47,7 +47,7 @@ class AuthController extends Controller
     
         if ($existingUser) {
             // El usuario ya existe, devuelve un mensaje de error
-            return response()->json(['error' => 'El correo electrónico ya está registrado.'], 422);
+            return response()->json(['error' => 'El correo electrónico ya se encuentra registrado.'], 422);
         }
     
         // El usuario no existe, crea uno nuevo
@@ -61,7 +61,6 @@ class AuthController extends Controller
         $user->verification_token = Str::random(40); // Genera un token de verificación
         $user->save();
 
-        
         // Define la variable $url
         $url = route('verification.verify', [
             'id' => $user->getKey(),
@@ -74,10 +73,8 @@ class AuthController extends Controller
         // Envía el correo de verificación
         Mail::raw($emailContent, function ($message) use ($user) {
             $message->to($user->email);
-            $message->subject('Verify Email');
+            $message->subject('Verificar Correo');
         });
-
-
 
         $token = $user->createToken('auth_token')->plainTextToken;
         
