@@ -68,13 +68,13 @@ class AuthController extends Controller
         ]);
 
         // Construye el contenido del correo
-        $emailContent = "Por favor, haga clic en el siguiente enlace para verificar su correo electrónico:\n\n$url\n\nGracias por usar nuestra aplicación.";
+        // $emailContent = "Por favor, haga clic en el siguiente enlace para verificar su correo electrónico:\n\n$url\n\nGracias por usar nuestra aplicación.";
 
         // Envía el correo de verificación
-        Mail::raw($emailContent, function ($message) use ($user) {
-            $message->to($user->email);
-            $message->subject('Verificar Correo');
-        });
+        // Mail::raw($emailContent, function ($message) use ($user) {
+        //     $message->to($user->email);
+        //     $message->subject('Verificar Correo');
+        // });
 
         $token = $user->createToken('auth_token')->plainTextToken;
         
