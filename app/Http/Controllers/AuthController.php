@@ -16,7 +16,33 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerifyEmail;
 
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+
 // namespace App\Mail;
+class MyEvent implements ShouldBroadcast
+{
+  use Dispatchable, InteractsWithSockets, SerializesModels;
+
+  public $message;
+
+  public function __construct($message)
+  {
+      $this->message = $message;
+  }
+
+  public function broadcastOn()
+  {
+      return ['appemergencia'];
+  }
+
+  public function broadcastAs()
+  {
+      return 'my-event';
+  }
+}
 
 class AuthController extends Controller
 {   
@@ -122,6 +148,9 @@ class AuthController extends Controller
         $obj->save();
         $data =['msje'=>'sos_enviado'];
         
+        //lanza el evento para los clientes
+        event(new MyEvent('envio_sos'));
+
         return response()->json($data);
     }
 
