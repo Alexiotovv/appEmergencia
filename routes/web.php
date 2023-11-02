@@ -14,13 +14,14 @@ use App\Mail\VerifyEmail;
 Route::get('/', function () {
     return view('usuarios.login');
 });
-
-
 Route::get('/login',function(){
     return view('usuarios.login');
 })->name('login')->middleware('guest');
-
 Route::get('/home',[LoginController::class,'index'])->middleware('auth')->name('home');
+
+
+//eventos
+Route::get('/event/emit', [SosController::class,'emitEvent'])->middleware(['auth'])->name('event.emit');
 
 //estadistica
 Route::get('/sos/datos/{ano}', [EstadisticaController::class,'datos'])->middleware(['auth'])->name('sos.datos');

@@ -23,7 +23,7 @@
 	<!-- Theme Style CSS -->
 	<link rel="stylesheet" href="../../../assets/css/dark-theme.css" />
 	<link rel="stylesheet" href="../../../assets/css/semi-dark.css" />
-	<link rel="stylesheet" href="../../../assets/css/header-colors.css" />
+	{{-- <link rel="stylesheet" href="../../../assets/css/header-colors.css" /> --}}
     
     
 
@@ -458,11 +458,11 @@
 
 {{-- <script src="../../../assets/js/index.js"></script> --}}
 <!--app JS-->
-<script src="../../../assets/js/app.js"></script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vaafb692b2aea4879b33c060e79fe94621666317369993"
+{{-- <script src="../../../assets/js/app.js"></script> --}}
+{{-- <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vaafb692b2aea4879b33c060e79fe94621666317369993"
 integrity="sha512-0ahDYl866UMhKuYcW078ScMalXqtFJggm7TmlUtp0UlD4eQk0Ixfnm5ykXKvGJNFjLMoortdseTfsRT8oCfgGA=="
 data-cf-beacon='{"rayId":"79b770648a486dfe","version":"2023.2.0","r":1,"token":"52ad871770524b3e8ca1e53094efe67a","si":100}'
-crossorigin="anonymous"></script>
+crossorigin="anonymous"></script> --}}
 
 @yield('extra_js')
 

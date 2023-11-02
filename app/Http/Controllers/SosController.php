@@ -1,16 +1,26 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Event;
 use Illuminate\Http\Request;
 use App\Models\sos;
 use DB;
+
+
+
+
 
 class SosController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function emitEvent()
+    {
+        // event(new MyEvent('envio_sos'));
+        return ("se envio un evento");
+    }
+
     public function index()
     {
         $activos=sos::where('status','=',0)->count();
@@ -87,7 +97,10 @@ class SosController extends Controller
         $obj->status=$estado;
         $obj->atendidopor=auth()->user()->name;
         $obj->save();
-        $data =['msje'=>'ok'];
+        $activos=sos::where('status','=',0)->count();
+        $rescate=sos::where('status','=',1)->count();
+        $cerrado=sos::where('status','=',2)->count();
+        $data =['activos'=>$activos,'rescate'=>$rescate,'cerrado'=>$cerrado];
         return response()->json($data);
     }
 

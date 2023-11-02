@@ -6,16 +6,38 @@ integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
 crossorigin=""/>
 
 <link href="../../../assets/plugins/datatable/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+
+{{-- <script>
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('{{ env("PUSHER_APP_KEY") }}', {
+      cluster: '{{ env("PUSHER_APP_CLUSTER") }}',
+    //   encrypted: true
+    });
+
+    var channel = pusher.subscribe('appemergencia');
+    channel.bind('Datosentiemporeal', function(data) {
+        //   console.log(data);
+        document.getElementById('evento-recibido').innerHTML = data;
+        console.log("recibió un evento");
+        alert(JSON.stringify(data));   
+    });
+  </script> --}}
+
+
+
+
 @endsection
 
 @section('content')
     <h5>Mapa de Incidencias</h5>
-    <span class="badge bg-danger">Activos: <strong>{{$activos}}</strong></span>
-    <span class="badge bg-warning">En rescate: <strong>{{$enrescate}}</strong></span>
-    <span class="badge bg-secondary">Cerrado: <strong>{{$cerrados}}</strong></span>
-    <a href="" class="btn btn-primary btn-sm" id="clear_markers">Limpiar Markers</a>
+    <span class="badge bg-danger" id="bgActivos">Activos:{{$activos}}</span>
+    <span class="badge bg-warning" id="bgEnrescate">En rescate:{{$enrescate}}</span>
+    <span class="badge bg-secondary" id="bgCerrado">Cerrado:{{$cerrados}}</span>    
+    
     <div class="row">
-        
         <div class="col-md-8"">
             <div id="map" style="height: 850px;"></div>
             <br>
@@ -49,13 +71,11 @@ crossorigin=""/>
     </div>
 @endsection
 @section('extra_js')
+    
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
     {{-- Mapa --}}
     <script>
-        $("#clear_markers").on("click",function (e) { 
-            e.preventDefault();
-            //alert("hey");
-            
-        })
+        
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(posicion,error,options);
@@ -113,12 +133,25 @@ crossorigin=""/>
             shadowAnchor: [22, 94]
             });
 
-            
+            // Enable pusher logging - don't include this in production
+            Pusher.logToConsole = true;
+
+            var pusher = new Pusher('34638103ef36ee67471e', {
+                cluster: 'mt1'
+            });
+
+            var channel = pusher.subscribe('appemergencia');
+            channel.bind('my-event', function(data) {
+            //   alert(JSON.stringify(data));
+                pone_marcador()
+                cargar_listarsos()
+            });            
 
 
             pone_marcador();
 
-            function pone_marcador() { 
+            function pone_marcador() {
+
                 var botonstatus='';
                 $.ajax({
                     type: "GET",
@@ -162,49 +195,55 @@ crossorigin=""/>
                     }
                 });
             }
-
-            // marker.on("drag", function () { 
-            // $("#latitud").val(marker.getLatLng().lat);
-            // $("#longitud").val(marker.getLatLng().lng);
-            // });
+            
+        
+            $(document).on("click",".btnEnviarRescate",function (e) { 
+                e.preventDefault();
+                id = this.id;
+                status='1';
+                $.ajax({
+                    type: "GET",
+                    url: "/sos/update/"+id+"/"+status,
+                    dataType: "json",
+                    success: function (response) {
+                        $("#"+ id+0).text("Estado: En rescate");
+                        $("#"+ id+0).removeClass('bg-danger');
+                        $("#"+ id+0).addClass('bg-warning');
+                        $("#bgActivos").text("Activos: "+response.activos)
+                        $("#bgEnrescate").text("Rescate: "+response.rescate)
+                        $("#bgCerrado").text("Cerrado: "+response.cerrado)
+                        cargar_listarsos();
+                        }
+                    });
+                pone_marcador()
+            })
+        
+        
+            $(document).on("click",".btnCerrar",function (e) { 
+            e.preventDefault();
+            id = this.id;
+            status='2';
+            $.ajax({
+                type: "GET",
+                url: "/sos/update/"+id+"/"+status,
+                dataType: "json",
+                success: function (response) {
+                    $("#"+ id+1).text("Estado: Cerrado");
+                    $("#"+ id+1).removeClass('bg-warning');
+                    $("#"+ id+1).addClass('bg-secondary');
+                    $("#bgActivos").text("Activos: "+response.activos)
+                    $("#bgEnrescate").text("Rescate: "+response.rescate)
+                    $("#bgCerrado").text("Cerrado: "+response.cerrado)
+                    cargar_listarsos();
+                    }
+                });
+                pone_marcador()
+            })
+        
+        
         }
 
-    
-    
-    
-        $(document).on("click",".btnEnviarRescate",function (e) { 
-        e.preventDefault();
-        id = this.id;
-        status='1';
-        $.ajax({
-            type: "GET",
-            url: "/sos/update/"+id+"/"+status,
-            dataType: "json",
-            success: function (response) {
-                $("#"+ id+0).text("Estado: En rescate");
-                $("#"+ id+0).removeClass('bg-danger');
-                $("#"+ id+0).addClass('bg-warning');
-                cargar_listarsos();
-                }
-            });
-        })
 
-        $(document).on("click",".btnCerrar",function (e) { 
-        e.preventDefault();
-        id = this.id;
-        status='2';
-        $.ajax({
-            type: "GET",
-            url: "/sos/update/"+id+"/"+status,
-            dataType: "json",
-            success: function (response) {
-                $("#"+ id+1).text("Estado: Cerrado");
-                $("#"+ id+1).removeClass('bg-warning');
-                $("#"+ id+1).addClass('bg-secondary');
-                cargar_listarsos();
-                }
-            });
-        })
     </script>
 
     {{-- ListarSOS --}}
@@ -221,7 +260,6 @@ crossorigin=""/>
                 dataType: "json",
                 success: function (response) {
                     response.forEach(e => {
-                        console.log(e.tipo);
                         if (e.status==0) {
                             badge="<span class='badge bg-danger'>Activo</span>";
                         }else if (e.status==1){
