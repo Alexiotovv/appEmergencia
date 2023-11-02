@@ -23,7 +23,7 @@
 	<!-- Theme Style CSS -->
 	<link rel="stylesheet" href="../../../assets/css/dark-theme.css" />
 	<link rel="stylesheet" href="../../../assets/css/semi-dark.css" />
-	{{-- <link rel="stylesheet" href="../../../assets/css/header-colors.css" /> --}}
+	<link rel="stylesheet" href="../../../assets/css/header-colors.css" />
     
     
 
@@ -453,10 +453,10 @@
 <script src="../../../assets/plugins/metismenu/js/metisMenu.min.js"></script>
 <script src="../../../assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
 
-{{-- <script src="../../../assets/plugins/apexcharts-bundle/js/apexcharts.min.js"></script> --}}
+<script src="../../../assets/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>
 
 
-<script src="../../../assets/js/index.js"></script>
+{{-- <script src="../../../assets/js/index.js"></script> --}}
 <!--app JS-->
 <script src="../../../assets/js/app.js"></script>
 {{-- <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vaafb692b2aea4879b33c060e79fe94621666317369993"

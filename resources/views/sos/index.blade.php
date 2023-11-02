@@ -286,6 +286,5 @@ crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
     crossorigin=""></script>
-    {{-- <script src="../../../assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
-	<script src="../../../assets/js/table-datatable.js"></script> --}}
+    
 @endsection
