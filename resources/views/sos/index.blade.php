@@ -134,9 +134,8 @@ crossorigin=""/>
             });
 
             // Enable pusher logging - don't include this in production
-            Pusher.logToConsole = true;
 
-            var pusher = new Pusher('34638103ef36ee67471e', {
+            var pusher = new Pusher('{{ env("PUSHER_APP_KEY") }}', {
                 cluster: 'mt1'
             });
 
