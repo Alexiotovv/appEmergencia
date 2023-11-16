@@ -48,6 +48,9 @@ Route::post('/sos/store', [SosController::class,'store'])->name('sos.store');
 Route::get('/sos/show', [SosController::class,'show'])->middleware(['auth'])->name('sos.show');
 Route::get('/sos/update/{id}/{estado}', [SosController::class,'update'])->middleware(['auth'])->name('sos.update');
 
+Route::get('/politica/privacidad', [SosController::class,'politicaprivacidad'])->name('politica.privacidad');
+
+
 //SOS JSON
 Route::get('/sos/listarsos', [SosController::class,'listarsos'])->middleware(['auth'])->name('sos.listarsos');
 
