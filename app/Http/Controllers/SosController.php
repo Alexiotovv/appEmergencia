@@ -111,4 +111,8 @@ class SosController extends Controller
     {
         //
     }
+
+    public function politicaprivacidad(Request $request){
+        return view('sos.privacidad');
+    }
 }
