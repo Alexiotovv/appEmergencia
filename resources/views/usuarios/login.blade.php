@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="../../../assets/css/bootstrap-extended.css">
-    <link rel="stylesheet" href="../../../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-extended.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }} ">
     <title>Login</title>
 </head>
 
@@ -19,14 +19,11 @@
                 <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
                     <div class="col mx-auto">
                         <div class="mb-4 text-center">
-                            {{-- <img src="assets/images/logo-img.png" width="180" alt="" /> --}}
-                            <br>
-                            <h3>Emergencia PNP</h3>
+                            <h3 class="mt-4">Emergencia PNP</h3>
                         </div>
                         <div class="card">
                             <div class="card-body">
                                 <div class="border p-4 rounded">
-
                                     <div class="login-separater text-center mb-4"> <span>Iniciar Sesión</span>
                                         <hr />
                                     </div>
@@ -55,8 +52,6 @@
                                                         for="flexSwitchCheckChecked">Recordar</label>
                                                 </div>
                                             </div>
-                                            {{-- <div class="col-md-6 text-end">	<a href="authentication-forgot-password.html">Forgot Password ?</a>
-											</div> --}}
                                             <div class="col-12">
                                                 <div class="d-grid">
                                                     <button type="submit" class="btn btn-primary"><i
@@ -70,11 +65,9 @@
                         </div>
                     </div>
                 </div>
-                <!--end row-->
             </div>
         </div>
     </div>
 
 </body>
-
 </html>
