@@ -6,6 +6,8 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SosController;
 use App\Http\Controllers\EstadisticaController;
 use App\Http\Controllers\AuthVerificationController;
+
+
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerifyEmail;
@@ -17,8 +19,12 @@ Route::get('/', function () {
 Route::get('/login',function(){
     return view('usuarios.login');
 })->name('login')->middleware('guest');
-Route::get('/home',[LoginController::class,'index'])->middleware('auth')->name('home');
 
+/** Start Routes for dinamycs views  */
+Route::get('/home',[LoginController::class,'index'])->middleware('auth')->name('home');
+Route::get('/dashboard', \App\Livewire\Dashboard::class)->middleware('auth')->name('dashboard');
+
+/** End Routes for dinamysc views */
 
 //eventos
 Route::get('/event/emit', [SosController::class,'emitEvent'])->middleware(['auth'])->name('event.emit');

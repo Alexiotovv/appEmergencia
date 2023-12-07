@@ -24,6 +24,7 @@
     
     @yield('extra_css')
     <title>Personal</title>
+    @livewireStyles
 </head>
 
 <body>
@@ -33,53 +34,13 @@
         {{-- @if (Auth::user()->tipo == 'admin') --}}
 
             <div class="wrapper">
-                <!--sidebar wrapper -->
+                {{--sidebar wrapper --}}
                 <div class="sidebar-wrapper" data-simplebar="true">
-                    <div class="sidebar-header">
-                        <div>
-                            <img src="../../../assets/images/pnp.png" class="logo-icon" alt="logo icon">
-                        </div>
-                        <div>
-                            <h4 class="logo-text">Seguridad</h4>
-                        </div>
-                        <div class="toggle-icon ms-auto"><i class='bx bx-arrow-to-left'></i>
-                        </div>
-                    </div>
-                    <!--navigation-->
-                    <ul class="metismenu" id="menu">
-                        <li>
-                            <a href="javascript:;" class="has-arrow">
-                                <div class="parent-icon"><i class="bx bx-category"></i>
-                                </div>
-                                <div class="menu-title">Control</div>
-                            </a>
-                            <ul>
-                                <li> <a href="{{route('home')}}"><i class="bx bx-right-arrow-alt"></i>Dashboard</a>
-                                </li>
-                                <li> <a href="{{route('sos.index')}}"><i class="bx bx-right-arrow-alt"></i>SOS</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="menu-label">Admin</li>
-                        <li>
-                            <a href="javascript:;" class="has-arrow">
-                                <div class="parent-icon"><i class="lni lni-users"></i>
-                                </div>
-                                <div class="menu-title">Usuarios</div>
-                            </a>
-                            <ul>
-                                <li> <a href="{{route('usuarios.index')}}"><i class="bx bx-right-arrow-alt"></i>Listar</a>
-                                </li>
-                                <li> <a href="{{route('usuarios.create')}}"><i class="bx bx-right-arrow-alt"></i>Registrar</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <!--end navigation-->
+                    @livewire('Sidebar')
                 </div>
-                <!--end sidebar wrapper -->
-                <!--start header -->
+                {{--end sidebar wrapper --}}
+                
+                {{--start header --}}
                 <header>
                     <div class="topbar d-flex align-items-center">
                         <nav class="navbar navbar-expand">
@@ -102,7 +63,6 @@
                                         </a> --}}
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <div class="row row-cols-3 g-3 p-3">
-                                            
                                             </div>
                                         </div>
                                     </li>
@@ -402,17 +362,17 @@
                         </nav>
                     </div>
                 </header>
+                {{--end header--}}
+                
+                {{--start content-loader --}}
                 <div class="page-wrapper">
                     <div class="page-content">
-                    @yield('content')
+                        @livewire('content-loader')
                     </div>
                 </div>
-                <!--end page wrapper -->
-                <!--start overlay-->
-                <div class="overlay toggle-icon"></div>
-                <!--end overlay-->
-                <!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
-                <!--End Back To Top Button-->
+                {{--end content-loader --}}
+                <div class="overlay toggle-icon"></div>                
+                <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
                 <footer class="page-footer">
                     <p class="mb-0">Copyright © 2021. Todos los derechos reservados.</p>
                 </footer>
@@ -433,7 +393,6 @@
 <script src="{{ asset('assets/plugins/metismenu/js/metisMenu.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
 <script src="{{ asset('assets/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script>
-{{-- <script src="../../../assets/js/index.js"></script> --}}
 {{--app JS--}}
 <script src="{{ asset('assets/js/app.js') }}"></script>
 @yield('extra_js')
