@@ -1,43 +1,37 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <!-- Required meta tags -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!--favicon-->
-	<link rel="icon" href="../../../assets/images/favicon-32x32.png" type="image/png" />
-	<!--plugins-->
-	<link href="../../../assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
-	<link href="../../../assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
-	<link href="../../../assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
-	
-	<!-- loader-->
-	<link href="../../../assets/css/pace.min.css" rel="stylesheet" />
-	<script src="../../../assets/js/pace.min.js"></script>
-	<!-- Bootstrap CSS -->
-	<link href="../../../assets/css/bootstrap.min.css" rel="stylesheet">
-	<link href="../../../assets/css/bootstrap-extended.css" rel="stylesheet">
-	<link href="../../../assets/css/app.css" rel="stylesheet">
-	<link href="../../../assets/css/icons.css" rel="stylesheet">
-	<!-- Theme Style CSS -->
-	<link rel="stylesheet" href="../../../assets/css/dark-theme.css" />
-	<link rel="stylesheet" href="../../../assets/css/semi-dark.css" />
-	<link rel="stylesheet" href="../../../assets/css/header-colors.css" />
+	{{--favicon--}}
+	<link rel="icon" href="{{ asset('assets/images/favicon-32x32.png') }}" type="image/png" />
+	{{--plugins--}}
+	<link href="{{ asset('assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet" />
+	<link href="{{ asset('assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet" />
+	<link href="{{ asset('assets/plugins/metismenu/css/metisMenu.min.css') }}" rel="stylesheet" />
+	{{-- loader--}}
+	<link href="{{ asset('assets/css/pace.min.css') }}" rel="stylesheet" />
+	<script src="{{ asset('assets/js/pace.min.js') }}"></script>
+	{{-- Bootstrap CSS --}}
+	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/css/bootstrap-extended.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet">
+	{{-- Theme Style CSS --}}
+	<link rel="stylesheet" href="{{ asset('assets/css/dark-theme.css') }}" />
+	<link rel="stylesheet" href="{{ asset('assets/css/semi-dark.css') }}" />
+	<link rel="stylesheet" href="{{ asset('assets/css/header-colors.css') }}" />
     
-    
-
     @yield('extra_css')
     <title>Personal</title>
 </head>
 
 <body>
 
-
 @if (Route::has('login'))
     @auth
         {{-- @if (Auth::user()->tipo == 'admin') --}}
-            <!--wrapper-->
+
             <div class="wrapper">
                 <!--sidebar wrapper -->
                 <div class="sidebar-wrapper" data-simplebar="true">
@@ -383,18 +377,13 @@
                             </div>
                             <div class="user-box dropdown">
                                 <a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="../../../assets/images/avatars/avatar-2.png" class="user-img" alt="user avatar">
+                                    <img src="{{ asset('assets/images/avatars/avatar-2.png') }}" class="user-img" alt="user avatar">
                                     <div class="user-info ps-3">
                                         <p class="user-name mb-0">{{ auth()->user()->name }}</p>
                                         {{-- <p class="designattion mb-0">Administrador</p> --}}
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
-
-                                    {{-- <li><a class="dropdown-item" href="javascript:;"><i class='bx bx-dollar-circle'></i><span>Earnings</span></a>
-                                    </li>
-                                    <li><a class="dropdown-item" href="javascript:;"><i class='bx bx-download'></i><span>Downloads</span></a>
-                                    </li> --}}
                                     <li>
                                         <div class="dropdown-divider mb-0"></div>
                                     </li>
@@ -407,20 +396,15 @@
                                                 <i class='bx bx-log-out-circle'></i> Salir</button>
                                             </li>
                                         </form>
-                                        {{-- <a class="dropdown-item" href="javascript:;"><i class='bx bx-log-out-circle'></i><span>Salir</span>
-                                        </a> --}}
                                     </li>
                                 </ul>
                             </div>
                         </nav>
                     </div>
                 </header>
-                <!--end header -->
-                <!--start page wrapper -->
                 <div class="page-wrapper">
                     <div class="page-content">
                     @yield('content')
-
                     </div>
                 </div>
                 <!--end page wrapper -->
@@ -430,13 +414,9 @@
                 <!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
                 <!--End Back To Top Button-->
                 <footer class="page-footer">
-                    <p class="mb-0">Copyright © 2021. All right reserved.</p>
+                    <p class="mb-0">Copyright © 2021. Todos los derechos reservados.</p>
                 </footer>
             </div>
-        {{-- @else
-            <h5>No tienes permisos, please retírese</h5>
-            <a href="https://google.com" class="btn btn-primary">Ok</a>
-        @endif --}}
     @else
         <div class="row" style="padding:50px;" >
             <a class="btn btn-warning" href="{{route('login')}}" style="width: 20%;text-align:center;">Inicie Sesión</a>
@@ -445,26 +425,17 @@
 @endif
 
 
-<!-- Bootstrap JS -->
-<script src="../../../assets/js/bootstrap.bundle.min.js"></script>
-<!--plugins-->
-<script src="../../../assets/js/jquery.min.js"></script>
-<script src="../../../assets/plugins/simplebar/js/simplebar.min.js"></script>
-<script src="../../../assets/plugins/metismenu/js/metisMenu.min.js"></script>
-<script src="../../../assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
-
-<script src="../../../assets/plugins/apexcharts-bundle/js/apexcharts.min.js"></script>
-
+{{-- Bootstrap JS --}}
+<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+{{--plugins--}}
+<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/simplebar/js/simplebar.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/metismenu/js/metisMenu.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
+<script src="{{ asset('assets/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script>
 {{-- <script src="../../../assets/js/index.js"></script> --}}
-<!--app JS-->
-<script src="../../../assets/js/app.js"></script>
-{{-- <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vaafb692b2aea4879b33c060e79fe94621666317369993"
-integrity="sha512-0ahDYl866UMhKuYcW078ScMalXqtFJggm7TmlUtp0UlD4eQk0Ixfnm5ykXKvGJNFjLMoortdseTfsRT8oCfgGA=="
-data-cf-beacon='{"rayId":"79b770648a486dfe","version":"2023.2.0","r":1,"token":"52ad871770524b3e8ca1e53094efe67a","si":100}'
-crossorigin="anonymous"></script> --}}
-
+{{--app JS--}}
+<script src="{{ asset('assets/js/app.js') }}"></script>
 @yield('extra_js')
-
 </body>
-
 </html>
