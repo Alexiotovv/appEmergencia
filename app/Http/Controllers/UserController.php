@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
-use DB;
+use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
     public function index(Request $request)
     {
         $texto=$request->get('txtBuscar');
         $obj=User::where('name', 'like','%'.$texto.'%') 
-        ->orderByDesc('id')
-        ->paginate(500);
+                ->orderByDesc('id')
+                ->paginate(500);
         // $obj=DB::table('users')->orderBy('id','desc')->get();
         return view('usuarios.usuario_index',['obj'=>$obj,'texto'=>$texto]);   
     }
@@ -32,10 +32,12 @@ class UserController extends Controller
         $obj->save();
         return redirect()->route('usuarios.edit',[$id])->with('guardo','si');
     }
+
     public function create(Request $request)
     {
         return view('usuarios.usuario_create');
     }
+
     public function store(Request $request)
     {
         $obj=new User();

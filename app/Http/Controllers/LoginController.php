@@ -21,7 +21,7 @@ class LoginController extends Controller
 
         if($status && Auth::attempt($credentials)){
             $request->session()->regenerate();
-            return redirect()->intended('home');
+            return redirect()->intended('/admin/home');
         }
         return redirect('/login');
     }

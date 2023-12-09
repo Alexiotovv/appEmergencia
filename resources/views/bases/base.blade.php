@@ -35,12 +35,6 @@
 
             <div class="wrapper">
                 {{--sidebar wrapper --}}
-                <div class="sidebar-wrapper" data-simplebar="true">
-                    @livewire('Sidebar')
-                </div>
-                {{--end sidebar wrapper --}}
-                
-                {{--start header --}}
                 <header>
                     <div class="topbar d-flex align-items-center">
                         <nav class="navbar navbar-expand">
@@ -362,6 +356,13 @@
                         </nav>
                     </div>
                 </header>
+                <div class="sidebar-wrapper" data-simplebar="true">
+                    @livewire('Sidebar')
+                </div>
+                {{--end sidebar wrapper --}}
+                
+                {{--start header --}}
+
                 {{--end header--}}
                 
                 {{--start content-loader --}}

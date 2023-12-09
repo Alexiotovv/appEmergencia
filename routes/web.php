@@ -7,27 +7,24 @@ use App\Http\Controllers\SosController;
 use App\Http\Controllers\EstadisticaController;
 use App\Http\Controllers\AuthVerificationController;
 
+use App\Livewire\Loader\SibeBarLoader;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerifyEmail;
 
 
-Route::get('/', function () {
-    return view('usuarios.login');
-});
-Route::get('/login',function(){
-    return view('usuarios.login');
-})->name('login')->middleware('guest');
+Route::get('/', function (){ return view('usuarios.login'); });
+Route::get('/login', function(){ return view('usuarios.login'); })->name('login')->middleware('guest');
 
 /** Start Routes for dinamycs views  */
-Route::get('/home',[LoginController::class,'index'])->middleware('auth')->name('home');
-Route::get('/dashboard', \App\Livewire\Dashboard::class)->middleware('auth')->name('dashboard');
+Route::get('/admin/{page}',  SibeBarLoader::class)->middleware(['auth'])->name('page');
+
 
 /** End Routes for dinamysc views */
 
-//eventos
-Route::get('/event/emit', [SosController::class,'emitEvent'])->middleware(['auth'])->name('event.emit');
+
+
 
 //estadistica
 Route::get('/sos/datos/{ano}', [EstadisticaController::class,'datos'])->middleware(['auth'])->name('sos.datos');
