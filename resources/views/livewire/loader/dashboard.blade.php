@@ -9,8 +9,8 @@
                             <p>Año</p>
                             <select wire:model="anoSeleccionado" wire:change="cargarDatosEstadisticos"
                                 class="form-select form-select-sm">
-                                @foreach ($anoSeleccionado as $y)
-                                    <option value="{{ $y->$anoSeleccionado }}">{{ $y->$anoSeleccionado }}</option>
+                                @foreach ($years as $y)
+                                    <option value="{{ $y->year }}">{{ $y->year }}</option>
                                 @endforeach
                             </select>
                         </div>
