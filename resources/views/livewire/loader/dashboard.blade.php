@@ -7,15 +7,16 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <p>Año</p>
-                            <select wire:model="anoSeleccionado" wire:change="cargarDatosEstadisticos"
-                                class="form-select form-select-sm">
+                            <select wire:model="anoSeleccionado" wire:change="cargarDatosEstadisticos"   class="form-select form-select-sm">
                                 @foreach ($years as $y)
                                     <option value="{{ $y->year }}">{{ $y->year }}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
-                    <div id="meses">
+                    <div id="meses" >
+                        <div id="loading" class="spinner-border text-primary"  style="display:none" role="status"> <span class="visually-hidden">Loading...</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -74,24 +75,25 @@
 </div>
 
 @push('scripts')
-    @once
-        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    @endonce
     <script>
-        document.addEventListener('livewire:load', function() {
-            initChart(@json($datosEstadisticos));
+        Livewire.on('datosEstadisticosActualizados',(data) => {
+            document.getElementById('loading').style.display = '';
+            initChart(data.datos);
         });
 
-        Livewire.on('contentUpdated', function() {
-            initChart(@json($datosEstadisticos));
-        });
-
-        function initChart(datosEstadisticos) {
+        function initChart(datosEstadisticos){
+            if (window.chart) {
+                window.chart.destroy();
+            }
+            var cat = [];
+            var poli = [];
+            var bom = [];
+            var amb = [];
             datosEstadisticos.forEach(element => {
-                cat.push(element.nombre)
-                poli.push(element.cant_policia)
-                bom.push(element.cant_bombero)
-                amb.push(element.cant_ambulancia)
+                cat.push(element.nombre);
+                poli.push(element.cant_policia);
+                bom.push(element.cant_bombero);
+                amb.push(element.cant_ambulancia);
             });
 
             var options = {
@@ -148,10 +150,10 @@
                     }
                 }
             };
-
-            var chart = new ApexCharts(document.querySelector("#meses"), options);
-            chart.render();
-            window.dispatchEvent(new Event('resize'))
+            window.chart = new ApexCharts(document.querySelector("#meses"), options);
+            window.chart.render().then(() => {
+                document.getElementById('loading').style.display = 'none';
+            });
         }
     </script>
 @endpush

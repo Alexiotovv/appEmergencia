@@ -17,22 +17,28 @@ return new class extends Migration
             CREATE PROCEDURE getMeses(IN ANO CHAR(4))
             
             BEGIN
-                SELECT  nombre,
-                cant_policia,
-                cant_bombero FROM meses 
+                SELECT 
+                    meses.nombre,
+                    COALESCE(T1.cant_policia, 0) AS cant_policia,
+                    COALESCE(T2.cant_bombero, 0) AS cant_bombero,
+                    COALESCE(T3.cant_ambulancia, 0) AS cant_ambulancia
+                FROM meses
                 LEFT JOIN
-                ( SELECT MONTH(fecha) AS mes, COUNT(*) AS cant_policia
-                FROM sos where tipo="policia" AND YEAR(fecha)=ANO
-                GROUP BY mes) T1 ON T1.mes = meses.mes  
+                    (SELECT MONTH(fecha) AS mes, COUNT(*) AS cant_policia
+                    FROM sos 
+                    WHERE tipo = "policia" AND YEAR(fecha) = ANO
+                    GROUP BY mes) T1 ON T1.mes = meses.mes
                 LEFT JOIN
-                ( SELECT MONTH(fecha) AS mes, COUNT(*) AS cant_bombero
-                FROM sos where tipo="bombero" AND YEAR(fecha)=ANO
-                GROUP BY mes) T2 ON T2.mes = meses.mes 
+                    (SELECT MONTH(fecha) AS mes, COUNT(*) AS cant_bombero
+                    FROM sos 
+                    WHERE tipo = "bomberos" AND YEAR(fecha) = ANO
+                    GROUP BY mes) T2 ON T2.mes = meses.mes
                 LEFT JOIN
-                ( SELECT MONTH(fecha) AS mes, COUNT(*) AS cant_ambulancia
-                FROM sos where tipo="ambulancia" AND YEAR(fecha)=ANO
-                GROUP BY mes) T3 ON T3.mes = meses.mes;
-            END
+                    (SELECT MONTH(fecha) AS mes, COUNT(*) AS cant_ambulancia
+                    FROM sos 
+                    WHERE tipo = "hospital" AND YEAR(fecha) = ANO
+                    GROUP BY mes) T3 ON T3.mes = meses.mes;
+                END
         ');
         
     }

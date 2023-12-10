@@ -18,8 +18,8 @@ class Dashboard extends Component
 
     public function cargarDatosEstadisticos()
     {
-        
         $this->datosEstadisticos = Estadistica::obtenerDatosPorAno($this->anoSeleccionado);
+        $this->dispatch('datosEstadisticosActualizados', datos : $this->datosEstadisticos);
     }
 
     public function render()
