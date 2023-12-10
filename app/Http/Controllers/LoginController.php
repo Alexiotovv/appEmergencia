@@ -19,10 +19,13 @@ class LoginController extends Controller
                     ->where('users.email','=',request('email'))
                     ->latest()->first();
 
-        if($status && Auth::attempt($credentials)){
+        if($status && Auth::attempt($credentials, $request->filled('remember'))){
             $request->session()->regenerate();
-            return redirect()->intended('/admin/home');
+            return redirect()->intended('/admin/dashboard');
         }
+
+
+
         return redirect('/login');
     }
 

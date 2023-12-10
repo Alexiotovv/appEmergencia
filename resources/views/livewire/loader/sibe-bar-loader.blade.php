@@ -2,10 +2,10 @@
     <div class="page-wrapper">
         <div class="page-content">
             @switch($pageCurrent)
-                @case('home')
+                @case('dashboard')
                     @livewire('loader.dashboard')
                     @break
-                @case('listar')
+                @case('lista-usuarios')
                     @livewire('loader.lista-usuarios')
                     @break
                 @default

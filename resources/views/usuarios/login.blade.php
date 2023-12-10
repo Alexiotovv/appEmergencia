@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-extended.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }} ">
+    <link rel="icon" href="{{ asset('assets/images/favicon-32x32.png') }}" type="image/png" />
     <title>Login</title>
 </head>
 
@@ -46,7 +47,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-check form-switch">
-                                                    <input class="form-check-input" type="checkbox"
+                                                    <input class="form-check-input" type="checkbox" name
                                                         id="flexSwitchCheckChecked" checked>
                                                     <label class="form-check-label"
                                                         for="flexSwitchCheckChecked">Recordar</label>
