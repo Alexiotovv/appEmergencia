@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Livewire\Loader;
-use Livewire\WithPagination;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Models\User;
 
 class ListaUsuarios extends Component
@@ -12,24 +12,20 @@ class ListaUsuarios extends Component
 
     public $statusSave = false; 
     public $sectionEdit = false;
-    public $users;
+    public $sectionList = true;
     public $userNameFind;
-    protected $listUsers; // Cambiar a propiedad protegida
 
-    public function mount(User $users)
-    {
-        $this->users = $users;
-        
-    }
-
+    // Método para manejar la búsqueda
     public function buscarPorNombre()
     {
-        $this->listUsers = $this->users->buscarPorNombre($this->userNameFind)->paginate(20);
+        $this->resetPage(); 
     }
 
     public function render()
-    {   
-        $listUsers = $this->users->buscarPorNombre('')->paginate(20);
-        return view('livewire.loader.lista-usuarios', compact('listUsers')); 
+    {
+        $listUsers = User::where('name', 'like', '%' . $this->userNameFind . '%')
+                         ->paginate(20);
+
+        return view('livewire.loader.lista-usuarios', ['listUsers' => $listUsers]);
     }
 }

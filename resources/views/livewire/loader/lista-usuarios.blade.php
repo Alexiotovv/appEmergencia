@@ -2,13 +2,10 @@
     <div class="row">
         <div class="col-sm-4">
             Buscar usuario por nombre
-            <form action="{{route('usuarios.index')}}" method="GET">
-                @csrf
             <div class="input-group">
-                    <input type="text" class="form-control form-control-sm" wire:model="userNameFind">
-                    <button class="btn btn-primary btn-sm" wire:click="buscarPorNombre"><i class="bx bx-search"></i>Buscar</button>
-                </div>
-            </form>
+                <input type="text" class="form-control form-control-sm" wire:model="userNameFind">
+                <button class="btn btn-primary btn-sm" wire:click="buscarPorNombre"><i class="bx bx-search"></i>Buscar</button>
+            </div>
         </div>
         <div class="col-sm-4">
             <br>    
