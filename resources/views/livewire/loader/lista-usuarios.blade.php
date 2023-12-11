@@ -1,4 +1,17 @@
 <div>
+    @if ($statusSave)
+        <div class="alert alert-success border-0 bg-success alert-dismissible fade show py-2">
+            <div class="d-flex align-items-center">
+                <div class="font-35 text-white"><i class='bx bxs-check-circle'></i>
+                </div>
+                <div class="ms-3">
+                    <h6 class="mb-0 text-white">Registro</h6>
+                    <div class="text-white">Guardado correctamente!</div>
+                </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" wire:click="setSaveStatus(false)"></button>
+        </div>
+    @endif
     <div class="row">
         <div class="col-sm-4">
             Buscar usuario por nombre
@@ -9,9 +22,10 @@
         </div>
         <div class="col-sm-4">
             <br>    
-            <a href="{{route('usuarios.index')}}" class="btn btn-warning btn-sm"><i class="bx bx-refresh"></i>Limpiar filtro</a>
+            <a href="{{route('usuarios.index')}}" wire:model.li" class="btn btn-warning btn-sm"><i class="bx bx-refresh"></i>Limpiar filtro</a>
         </div>
     </div>
+    @if($sectionList)
     <h5>Lista Usuarios</h5>
     <div class="card">
         <div class="card-body">
@@ -31,7 +45,7 @@
                         @foreach ($listUsers as $usu)
                             <tr>
                                 <td>{{ $usu->id }}</td>
-                                <td><a href="/usuarios/edit/{{ $usu->id }}" class="btn btn-warning btn-sm">Editar</a>
+                                <td><a href="#" wire:click.prevent="sectionEditUserById({{ $usu->id }})" class="btn btn-warning btn-sm">Editar</a>
                                 <a class="btn btn-danger btn-sm btnCambiarClave">Cambiar Contraseña</a>
                                 </td>
                                 <td>{{ $usu->name }}</td>
@@ -54,25 +68,9 @@
 
         </div>
     </div>
+    @endif
 
-    @if ($sectionEdit)
-    <form id="formCambiarClave">
-            {{-- comprueba si existe el valor en sesión --}}
-            @if ($statusSave)
-            <div class="alert alert-success border-0 bg-success alert-dismissible fade show py-2">
-                <div class="d-flex align-items-center">
-                    <div class="font-35 text-white"><i class='bx bxs-check-circle'></i>
-                    </div>
-                    <div class="ms-3">
-                        <h6 class="mb-0 text-white">Registro</h6>
-                        <div class="text-white">Guardado correctamente!</div>
-                    </div>
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-        {{-- fin --}}
-        @csrf
+    @if ($sectionEditPass)
         <div class="modal-size-lg d-inline-block">
             <div class="modal fade text-left" id="ModalCambiarClave" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-default" role="document">
@@ -115,12 +113,59 @@
                 </div>
             </div>
         </div>
-    </form>
+    @endif
+
+    @if ($sectionEditUser)
+    <div class="d-flex justify-content-left align-items-center">
+        <h5>Editar Trabajador</h5>
+        <div class="mr-3 p-2 cursor-pointer rounded">
+            <a href="#" wire:click.prevent="backList" class="btn btn-warning btn-sm"><i class="lni lni-arrow-left-circle"></i> Volver</a>
+        </div>
+    </div>
+    
+    <form wire:submit="updateDataByUser">
+        <div class="row">
+            <input type="text" class="form-control" name="id" wire:model.lazy="userData.id" readonly hidden>
+    
+            <div class="col-md-4">
+                <label for="email">Correo</label>
+                <input type="text" class="form-control" wire:model.lazy="userData.email" maxlength="100" required>
+                @error('userData.email') <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+    
+            <div class="col-md-4">
+                <label for="name">Nombre de usuario</label>
+                <input type="text" class="form-control" wire:model.lazy="userData.name"  maxlength="200" required>
+                @error('userData') <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+    
+            <div class="col-md-4">
+                <label for="tipo">Tipo</label>
+                <select wire:model.lazy="userData.tipo" class="form-select">
+                    <option value="admin">ADMIN</option>
+                    <option value="public">PUBLICO</option>
+                </select>
+                @error('userData.tipo') <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+    
+            <div class="col-md-4">
+                <label for="status">Estado</label>
+                <select wire:model.lazy="userData.status" class="form-select">
+                    <option value="1">ACTIVO</option>
+                    <option value="0">INACTIVO</option>
+                </select>
+                @error('userData.status') <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col-md-4">
+                <br>
+                <button type="submit" class="btn btn-danger">Guardar</button>
+            </div>
+        </div>
+    </form>    
     @endif
 
 </div>
 
-@push('scripts')
-    <script src="{{ asset('/app_js/crud.js')}}"></script>
-    <script src="{{ asset('/app_js/usuarios.js') }}"></script>
-@endpush

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -45,41 +46,19 @@ class User extends Authenticatable
     ];
 
     /**
-     * Busca usuarios por nombre.
-     *
-     * @param string $texto
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     */
-    public function buscarPorNombre($texto)
-    {
-        return $this->where('name', 'like', '%' . $texto . '%')
-                    ->orderByDesc('id');
-    }
-
-    /**
-     * Recupera los datos de un usuario en especifico
-     * @param int $idusuario
-     * @return mixed
-     */
-    public function findUser($idusuario)
-    {
-        return  $this->find($idusuario);
-    }
-
-    /**
      * Actualiza los datos de un usuario en especifico 
      * @param  $idusuario, $name, $email, $tipo, $status
      * @return void
      */
 
-    public function updateUser( $idusuario, $name, $email, $tipo, $status, $pass =  null)
+    public static function updateUser( $idusuario, $name, $email, $tipo, $status, $pass = null)
     {
-        $usuario = $this->findOrFail($idusuario);
+        $usuario = User::findOrFail($idusuario);
         $usuario->name = $name;
         $usuario->email = $email;
         $usuario->tipo = $tipo;
         $usuario->status = $status;
-        if(!$pass){
+        if($pass){
             $usuario->password = Hash::make($pass);
         }
         $usuario->save();
