@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SosController;
-use App\Http\Controllers\EstadisticaController;
 use App\Http\Controllers\AuthVerificationController;
 
 use App\Livewire\Loader\SibeBarLoader;
@@ -17,19 +16,8 @@ use App\Mail\VerifyEmail;
 Route::get('/', function (){ return view('usuarios.login'); })->middleware('guest');
 Route::get('/login', function(){ return view('usuarios.login'); })->name('login')->middleware('guest');
 Route::get('/admin/{page}',  SibeBarLoader::class)->middleware(['auth'])->name('page');
-Route::get('/sos/datos/{ano}', [EstadisticaController::class,'datos'])->middleware(['auth'])->name('sos.datos');
 
-/**
- * email-activation
- * Ruta de verificación de correo
- */
-Route::get('/email/verify/{id}/{token}', [AuthVerificationController::class,'verify'])->name('verification.verify');
 
-Route::get('/send-test-email', function () {
-    $user = App\Models\User::find(10);      
-    $user->sendEmailVerificationNotification();    
-    return "Correo de prueba de verificación enviado.";
-});
 
 
 
@@ -56,6 +44,17 @@ Route::post('/usuarios/store', [UserController::class,'store'])->middleware(['au
 Route::get("/verificanombre/{name}",[UserController::class,'verificanombre'])->middleware(['auth'])->name('verificanombre');
 Route::get("/verificaemail/{email}",[UserController::class,'verificaemail'])->middleware(['auth'])->name('verificaemail');
 Route::post("/ActualizaContrasena",[UserController::class, "ActualizaContrasena"])->middleware(['auth'])->name('Actualiza.Contrasena');
+
+/**
+ * email-activation
+ * Ruta de verificación de correo
+ */
+Route::get('/email/verify/{id}/{token}', [AuthVerificationController::class,'verify'])->name('verification.verify');
+Route::get('/send-test-email', function () {
+    $user = App\Models\User::find(10);      
+    $user->sendEmailVerificationNotification();    
+    return "Correo de prueba de verificación enviado.";
+});
 
 Route::post("/login",[LoginController::class, 'login']);
 Route::put('/login', [LoginController::class, 'logout']);

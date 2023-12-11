@@ -74,8 +74,6 @@
         </div>
     </div>
 
-
-
     <form id="formCambiarClave">
         @csrf
         <div class="modal-size-lg d-inline-block">

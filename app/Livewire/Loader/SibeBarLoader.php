@@ -10,7 +10,7 @@ class SibeBarLoader extends Component
     public $pageCurrent;
     public $pageNames = [
         'dashboard' => 'Dashboard',
-        'lista-usuarios' => 'Registro de usuarios',
+        'lista-usuarios' => 'Lista de usuarios',
         'registrar-usuarios' => 'Registrar usuarios',
         'alertas-sos' => 'SOS'
     ];

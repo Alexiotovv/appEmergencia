@@ -77,7 +77,6 @@
 @push('scripts')
     <script>
         Livewire.on('datosEstadisticosActualizados',(data) => {
-            document.getElementById('loading').style.display = '';
             initChart(data.datos);
         });
 
@@ -151,9 +150,7 @@
                 }
             };
             window.chart = new ApexCharts(document.querySelector("#meses"), options);
-            window.chart.render().then(() => {
-                document.getElementById('loading').style.display = 'none';
-            });
+            window.chart.render();
         }
     </script>
 @endpush

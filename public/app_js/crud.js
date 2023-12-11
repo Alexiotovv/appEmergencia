@@ -1,5 +1,4 @@
 function GuardarRegistroDevolucion(ds,ru,mje,frm){
-  
     Swal.fire({
         title: 'Estás seguro?', text: "Por favor confirma para poder guardar!",
         showCancelButton: true, confirmButtonColor: '#3085d6',

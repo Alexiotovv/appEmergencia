@@ -8,6 +8,9 @@
                 @case('lista-usuarios')
                     @livewire('loader.lista-usuarios')
                     @break
+                @case('registrar-usuarios')
+                    @livewire('loader.registrar-usuarios')
+                @break
                 @default
                     @livewire('loader.dashboard')
             @endswitch
