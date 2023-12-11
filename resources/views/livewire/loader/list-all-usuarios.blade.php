@@ -1,12 +1,28 @@
 <div>
+
+    {{-- comprueba si existe el valor en sesión --}}
+    @if (session()->has('guardo')=='si')
+        <div class="alert alert-success border-0 bg-success alert-dismissible fade show py-2">
+            <div class="d-flex align-items-center">
+                <div class="font-35 text-white"><i class='bx bxs-check-circle'></i>
+                </div>
+                <div class="ms-3">
+                    <h6 class="mb-0 text-white">Registro</h6>
+                    <div class="text-white">Guardado correctamente!</div>
+                </div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    {{-- fin --}}
+
     <div class="row">
         <div class="col-sm-4">
             Buscar usuario por nombre
             <form action="{{route('usuarios.index')}}" method="GET">
-                @csrf
             <div class="input-group">
-                    <input type="text" class="form-control form-control-sm" wire:model="userNameFind">
-                    <button class="btn btn-primary btn-sm" wire:click="buscarPorNombre"><i class="bx bx-search"></i>Buscar</button>
+                    <input type="text" class="form-control form-control-sm" name="txtBuscar" id="txtBuscar" value="{{$texto}}">
+                    <button class="btn btn-primary btn-sm"><i class="bx bx-search"></i>Buscar</button>
                 </div>
             </form>
         </div>
@@ -31,7 +47,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($listUsers as $usu)
+                        @foreach ($obj as $usu)
                             <tr>
                                 <td>{{ $usu->id }}</td>
                                 <td><a href="/usuarios/edit/{{ $usu->id }}" class="btn btn-warning btn-sm">Editar</a>
@@ -52,29 +68,13 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $listUsers->links() }}
+                {!! $obj->links() !!}
             </div>
 
         </div>
     </div>
 
-    @if ($sectionEdit)
     <form id="formCambiarClave">
-            {{-- comprueba si existe el valor en sesión --}}
-            @if ($statusSave)
-            <div class="alert alert-success border-0 bg-success alert-dismissible fade show py-2">
-                <div class="d-flex align-items-center">
-                    <div class="font-35 text-white"><i class='bx bxs-check-circle'></i>
-                    </div>
-                    <div class="ms-3">
-                        <h6 class="mb-0 text-white">Registro</h6>
-                        <div class="text-white">Guardado correctamente!</div>
-                    </div>
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-        {{-- fin --}}
         @csrf
         <div class="modal-size-lg d-inline-block">
             <div class="modal fade text-left" id="ModalCambiarClave" tabindex="-1" role="dialog" aria-labelledby="myModalLabel16" aria-hidden="true">
@@ -119,7 +119,6 @@
             </div>
         </div>
     </form>
-    @endif
 
 </div>
 

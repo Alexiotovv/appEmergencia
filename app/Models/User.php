@@ -44,7 +44,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-        /**
+    /**
      * Busca usuarios por nombre.
      *
      * @param string $texto
@@ -53,8 +53,7 @@ class User extends Authenticatable
     public function buscarPorNombre($texto)
     {
         return $this->where('name', 'like', '%' . $texto . '%')
-                    ->orderByDesc('id')
-                    ->paginate(20);
+                    ->orderByDesc('id');
     }
 
     /**

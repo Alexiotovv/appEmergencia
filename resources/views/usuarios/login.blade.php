@@ -29,7 +29,8 @@
                                         <hr />
                                     </div>
                                     <div class="form-body">
-                                        <form class="row g-3" action="/login" method="POST">@csrf
+                                        <form class="row g-3" action="/login" method="POST">
+                                            @csrf
                                             <div class="col-12">
                                                 <label for="name" class="form-label">Nombre Usuario</label>
                                                 <input type="email" class="form-control" id="email" name="email"
