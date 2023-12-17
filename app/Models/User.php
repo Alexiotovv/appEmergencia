@@ -100,5 +100,25 @@ class User extends Authenticatable
         return $this->where('email', $email)->count() === 0;
     }
 
+    public static function updatePass ($id, $pass): void 
+    {   
+        DB::table('users')
+            ->where('id', '=' , $id)
+            ->update(['password' => $pass]);
+        return;
+    }
+
+    public static function saveUser ($name, $email, $tipo, $status, $password)
+    {
+        $user = User::create([
+            'name' => $name,
+            'email' => $email,
+            'tipo' => $tipo,
+            'status' => $status,
+            'password' => bcrypt($password),
+        ]);
+    
+        return $user;
+    }
 
 }
