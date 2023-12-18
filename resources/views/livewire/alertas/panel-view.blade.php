@@ -7,12 +7,19 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Datos de Usuario</h5>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">Datos de Usuario</h5>
+                            <div>
+                                <a href="#" wire:click.prevent="" class="btn btn-secondary mr-1">Enviar Ayuda</a>
+                                <a href="#" wire:click.prevent="" class="btn btn-danger">Cerrar Incidencia</a>
+                            </div>
+                        </div>
                         <hr>
                         <table class="table mb-0 border">
                             <thead>
                                 <tr>
                                     <th scope="col">Nombre</th>
+                                    <th scope="col">Celular</th>
                                     <th scope="col">Tipo de Ayuda</th>
                                     <th scope="col">Fecha</th>
                                     <th scope="col">Hora</th>
@@ -22,6 +29,7 @@
                             <tbody>
                                 <tr>
                                     <th scope="row">{{$name}}</th>
+                                    <td>{{ $celular}}</td>
                                     <td>{{ $tipo }}</td>
                                     <td>{{ $fecha }}</td>
                                     <td>{{ $hora }}</td>
