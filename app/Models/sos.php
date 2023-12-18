@@ -88,4 +88,26 @@ class sos extends Model
         }
         return true;
     }
+
+    public static function updateSendHelp($id, $idUser)
+    {
+        DB::table('sos')
+            ->where('id', '=', $id)
+            ->update(['status' => 1]);
+
+        DB::table('sos')
+            ->where('iduser', $idUser)
+            ->where('status', 0)
+            ->where('fecha', '=', Carbon::today()->toDateString())
+            ->where('hora', '<', Carbon::now()->toTimeString())
+            ->update(['status' => 3]);
+        
+    }
+
+    public static function updateCloseIncidencia($id)
+    {
+        DB::table('sos')
+        ->where('id', '=', $id)
+        ->update(['status' => 2]);
+    }
 }

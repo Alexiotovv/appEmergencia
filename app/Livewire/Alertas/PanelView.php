@@ -12,6 +12,7 @@ class PanelView extends Component
     public $name ="";
     public $apellidos ="";
     public $celular ="";
+    public $idUser = "";
     public $id ="";
     public $tipo ="";
     public $fecha ="";
@@ -20,17 +21,19 @@ class PanelView extends Component
     public $longitud =1;
     public $address ="";
     public $display_name ="";
+    public $rowId;
 
 
     public $display = '';
 
     #[On('viewSpecificSoS')]  
-    public function viewSpecificSoS($id)
+    public function viewSpecificSoS($id, $rowId)
     {   
         $geocoding = new GeoCoding();
-
+        $this->rowId = $rowId;
         $sos = sos::findSoS($id);
         $this->name = $sos->name ;
+        $this->idUser = $sos->idUserSos;
         $this->celular=$sos->celular;
         $this->id=$sos->id;
         $this->tipo=$sos->tipo;
@@ -54,6 +57,29 @@ class PanelView extends Component
         $this->latitud= 1;
         $this->longitud= 1;
         $this->display = "";
+    }
+
+    public function sendHelp()
+    {
+        try {
+            sos::updateSendHelp($this->id, $this->idUser);
+            $this->dispatch('sendHelp');
+            $this->dispatch('quickRow', $this->rowId);
+            $this->display = "";
+        } catch(\Exception $e){
+            $this->dispatch('Fail');
+        }
+    }
+
+    public function closeIncidencia()
+    {
+        try{
+            sos::updateCloseIncidencia($this->id);
+            $this->dispatch('quickRow', $this->rowId);
+            $this->display = "";
+        } catch(\Exception $e){
+            $this->dispatch('Fail');
+        }
     }
 
     public function render()

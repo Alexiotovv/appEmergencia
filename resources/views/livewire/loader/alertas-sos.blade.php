@@ -40,14 +40,14 @@
                             </thead>
                             <tbody>
                                 @foreach ($listSoS as $index => $row)
-                                <tr wire:key="item-{{$row['id']}}">
+                                <tr wire:key="{{ $index }}">
                                     <th scope="row">{{ $row['id'] }}</th>
                                     <td>{{ $row['name'] }}</td>
                                     <td>{{ $row['tipo'] }}</td>
                                     <td>{{ $row['fecha'] }}</td>
                                     <td>{{ $row['hora'] }}</td>
                                     <td>
-                                        <a href="#" wire:click.prevent="$dispatch('viewSpecificSoS',  {id : {{$row['id'] }}  })" class="btn btn-warning btn-sm">Atender</a>
+                                        <a href="#" wire:click.prevent="$dispatch('viewSpecificSoS',  {id : {{$row['id'] }}, rowId: {{ $index}}  })" class="btn btn-warning btn-sm">Atender</a>
                                     </td>
                                 </tr>
                             @endforeach

@@ -54,7 +54,22 @@ class AlertasSos extends Component
         $this->listSoS[] = $newSosList;
     }
 
-  
+    #[On('quickRow')]
+    public function quickRow($row)
+    {
+        $indexToRemove = null;
+
+        foreach ($this->listSoS as $index => $item) {
+            if ($index === $row) {
+                $indexToRemove = $index;
+                break;
+            }
+        }
+    
+        if ($indexToRemove !== null) {
+            array_splice($this->listSoS, $indexToRemove, 1);
+        } 
+    }
 
     public function render()
     {        

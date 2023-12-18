@@ -10,8 +10,8 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="card-title mb-0">Datos de Usuario</h5>
                             <div>
-                                <a href="#" wire:click.prevent="" class="btn btn-secondary mr-1">Enviar Ayuda</a>
-                                <a href="#" wire:click.prevent="" class="btn btn-danger">Cerrar Incidencia</a>
+                                <a href="#" wire:click.prevent="sendHelp()" class="btn btn-secondary mr-1">Enviar Ayuda</a>
+                                <a href="#" wire:click.prevent="closeIncidencia()" class="btn btn-danger">Cerrar Incidencia</a>
                             </div>
                         </div>
                         <hr>
@@ -48,3 +48,25 @@
         </div>
     </div>    
 </div>
+@push('scripts')
+<script>
+    Livewire.on('Fail', (data) => {
+        Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: "Lo sentimos estamos experimentando problemas de red.",
+            showConfirmButton: false,
+            timer: 1500,
+        });
+    });
+    Livewire.on('sendHelp', (data) => {
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Ayuda en camino",
+            showConfirmButton: false,
+            timer: 1500,
+        });
+    });
+</script>
+@endpush
