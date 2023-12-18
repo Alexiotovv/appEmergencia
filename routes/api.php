@@ -25,6 +25,7 @@ Route::post('/register', [AuthController::class,'register']);
 Route::post('/login', [AuthController::class,'login']);
 Route::get('/infouser', [AuthController::class,'infouser'])->middleware('auth:sanctum');
 Route::post('/create/sos', [AuthController::class,'create_sos'])->middleware('auth:sanctum');
+Route::post('/create/message', [AuthController::class, 'create_sms'])->middleware('auth:sanctum');
 
 
 //forgot my password

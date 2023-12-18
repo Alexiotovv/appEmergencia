@@ -132,7 +132,45 @@ class AuthController extends Controller
          * Lanza un evento para los administradores.
         */
         event(new AlertaSoS(
-            $obj->iduser,
+            $obj->id,
+            auth()->user()->name,
+            $obj->latitud,
+            $obj->longitud,
+            $obj->tipo,
+            $obj->fecha,
+            $obj->hora
+        ));
+        return response()->json($data, 200);
+   }
+
+
+   public function create_sms (Request $request)
+   {
+        $verify = sos::isUserSmSSpam(auth()->user()->id, request('fecha'), request('hora'));
+        $data =['msje'=>'sos_enviado'];
+        if($verify){
+            return response()->json($data, 200);
+        }
+        /**
+         * status se guarda por defecto 0 y atendido por vacío hasta que un poli envie el rescate.
+        */
+
+        $obj= new sos();
+        $obj->iduser=auth()->user()->id;
+        $obj->latitud=request('latitud');
+        $obj->longitud=request('longitud');
+        $obj->tipo=request('tipo');
+        $obj->fecha=request('fecha');
+        $obj->hora=request('hora');
+        $obj->save();
+    
+        
+        /**
+         * Lanza un evento para los administradores.
+        */
+        event(new AlertaSoS(
+            $obj->id,
+            auth()->user()->name,
             $obj->latitud,
             $obj->longitud,
             $obj->tipo,

@@ -39,18 +39,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($listSoS as $index => $row )
-                                    <tr wire:key="item-{{$row->id}}">
-                                        <th scope="row" >{{ $row->id}}</th>
-                                        <td>{{ $row->name}}</td>
-                                        <td>{{ $row->tipo}}</td>
-                                        <td>{{ $row->fecha}}</td>
-                                        <td>{{ $row->hora}}</td>
-                                        <td>
-                                            <a href="#" wire:click.prevent="$dispatch('open')" class="btn btn-warning btn-sm">Atender</a>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                @foreach ($listSoS as $index => $row)
+                                <tr wire:key="item-{{$row['id']}}">
+                                    <th scope="row">{{ $row['id'] }}</th>
+                                    <td>{{ $row['name'] }}</td>
+                                    <td>{{ $row['tipo'] }}</td>
+                                    <td>{{ $row['fecha'] }}</td>
+                                    <td>{{ $row['hora'] }}</td>
+                                    <td>
+                                        <a href="#" wire:click.prevent="$dispatch('viewSpecificSoS',  {id : {{$row['id'] }}  })" class="btn btn-warning btn-sm">Atender</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            
                             </tbody>
                         </table>
                     </div>
@@ -96,9 +97,6 @@
         Livewire.dispatch('listenNewSos', { dataEvent: data })
     });
   
-    Livewire.on('hola', (data) => {
-      alert('hola');
-    });
   </script>
   
 @endpush

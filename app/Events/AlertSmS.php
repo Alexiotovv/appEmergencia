@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class AlertaSoS implements ShouldBroadcast
+class AlertSmS
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -43,11 +43,11 @@ class AlertaSoS implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['appemergencia'];
+        return ['appemergencia-sms'];
     }
   
     public function broadcastAs()
     {
-        return 'my-appemergencia';
+        return 'my-appemergencia-sms';
     }
 }

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('atendidopor', 100)->default('');
             $table->date('fecha')->nullable();
             $table->time('hora')->nullable();
+            $table->boolean('is_sms')->default(0);
             $table->bigInteger('iduser')->unsigned();
             $table->foreign('iduser')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
@@ -29,7 +30,7 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     */
+    */
     public function down(): void
     {
         Schema::dropIfExists('sos');

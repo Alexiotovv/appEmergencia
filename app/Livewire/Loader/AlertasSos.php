@@ -14,6 +14,7 @@ class AlertasSos extends Component
 
     public $listSoS = [
         'id' => "",
+        'name' => "", 
         'latitud' => "",
         'longitud' => "",
         'tipo' => "",
@@ -23,31 +24,34 @@ class AlertasSos extends Component
 
     public function mount()
     {
-        $this->listSoS = sos::listActiveSos();
+        $this->listSoS =  sos::listActiveSos();
+        $this->listSoS = array_map(function ($item) {
+            return json_decode(json_encode($item), true);
+        }, $this->listSoS);
     }
 
     #[On('listenNewSos')] 
     public function listenNewSos($dataEvent)
     {
-        $idUser = $dataEvent['idUser'];
+        $id = $dataEvent['id'];
+        $name = $dataEvent['name'];
         $latitud = $dataEvent['latitud'];
         $longitud = $dataEvent['longitud'];
         $tipo = $dataEvent['tipo'];
         $fecha = $dataEvent['fecha'];
         $hora = $dataEvent['hora'];
     
-        $newSosList = [];
-
-        array_push($newSosList, [
-          'id' => $idUser,
+        $newSosList = [
+          'id' => $id,
+          'name' => $name,
           'latitud' => $latitud,
           'longitud' => $longitud,
           'tipo' => $tipo,
           'fecha' => $fecha,
           'hora' => $hora,
-        ]);
+        ];
       
-        $this->listSoS = array_merge($this->listSoS, $newSosList);
+        $this->listSoS[] = $newSosList;
     }
 
   

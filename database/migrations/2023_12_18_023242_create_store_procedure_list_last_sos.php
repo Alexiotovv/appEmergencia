@@ -13,32 +13,36 @@ return new class extends Migration
     public function up()
     {
         DB::unprepared('
-        SELECT 
-            s.id, 
-            s.latitud, 
-            s.longitud, 
-            s.tipo, 
-            u.id as idUserSos, 
-            s.fecha, 
-            s.hora, 
-            u.name
-        FROM 
-            sos s
-        INNER JOIN 
-            users u ON u.id = s.iduser
-        INNER JOIN 
-            (
-                SELECT 
-                    MAX(id) as last_sos_id
-                FROM 
-                    sos
-                GROUP BY 
-                    iduser, DATE(fecha)
-            ) as latest_sos ON s.id = latest_sos.last_sos_id
-        WHERE 
-            s.status = 0
-        ORDER BY 
-            s.fecha DESC;
+        CREATE PROCEDURE GetLatestSos()
+            
+        BEGIN
+            SELECT 
+                s.id, 
+                s.latitud, 
+                s.longitud, 
+                s.tipo, 
+                u.id as idUserSos, 
+                s.fecha, 
+                s.hora, 
+                u.name
+            FROM 
+                sos s
+            INNER JOIN 
+                users u ON u.id = s.iduser
+            INNER JOIN 
+                (
+                    SELECT 
+                        MAX(id) as last_sos_id
+                    FROM 
+                        sos
+                    GROUP BY 
+                        iduser, DATE(fecha)
+                ) as latest_sos ON s.id = latest_sos.last_sos_id
+            WHERE 
+                s.status = 0 and s.is_sms = 0
+            ORDER BY 
+                s.fecha DESC;
+        END
         ');
     }
 

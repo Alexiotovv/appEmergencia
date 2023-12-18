@@ -37,4 +37,55 @@ class sos extends Model
         }
         return true;
     }
+
+    public static function findSoS($id)
+    {
+        $sos = DB::select(" 
+            SELECT 
+                s.id as id, 
+                s.latitud as latitud, 
+                s.longitud as longitud, 
+                s.tipo as tipo, 
+                u.id as idUserSos, 
+                s.fecha as fecha, 
+                s.hora as hora, 
+                u.name as name,
+                u.celular as celular,
+                u.dni as dni
+            FROM 
+                sos s
+            INNER JOIN 
+                users u ON u.id = s.iduser
+            WHERE 
+                s.id = ?" , [$id]);
+        return $sos[0];
+    }
+
+    public static function saveSmS($id, $message, $fecha, $hora)
+    {
+        DB::insert('sms', [
+            'id_sos' => $id,
+            'message' => $message,
+            'fecha' => $fecha,
+            'hora' => $hora
+        ]);
+    }
+
+    public static function isUserSmSSpam($id, $fecha, $hora)
+    {   
+        $resultado = DB::select("
+            SELECT sos.id
+            FROM sos as sos
+            INNER JOIN sms_sos as sms ON sms.id_sos = sos.id
+            WHERE sos.id = ?
+            AND sms.fecha = ?
+            AND TIME_TO_SEC(TIMEDIFF(?, sms.hora)) / 3600  < 1
+            ORDER BY hora DESC
+            LIMIT 1", 
+        [$id, $fecha, $hora]);
+        if(!$resultado){
+            return false;
+        }
+        return true;
+    }
 }
