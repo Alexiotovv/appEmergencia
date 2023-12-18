@@ -5,6 +5,9 @@
                 @case('dashboard')
                     @livewire('loader.dashboard')
                     @break
+                @case('alertas-sos')
+                    @livewire('loader.alertas-sos')
+                @break 
                 @case('lista-usuarios')
                     @livewire('loader.lista-usuarios')
                     @break

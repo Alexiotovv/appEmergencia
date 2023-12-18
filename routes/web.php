@@ -21,6 +21,7 @@ Route::get('/admin/{page}',  SibeBarLoader::class)->middleware(['auth'])->name('
 
 
 
+
 //SOS
 Route::get('/sos/index', [SosController::class,'index'])->middleware(['auth'])->name('sos.index');
 Route::get('/sos/create', [SosController::class,'create'])->name('sos.create');

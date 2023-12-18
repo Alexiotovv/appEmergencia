@@ -121,4 +121,9 @@ class User extends Authenticatable
         return $user;
     }
 
+    public static function isUserSosRedundancy($id, $fecha, $hora)
+    {
+        
+    }
+
 }

@@ -6,61 +6,30 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\sos;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
-
-use Illuminate\Foundation\Auth\ResetsPasswords;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\VerifyEmail;
+use App\Events\AlertaSoS;
 
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-
-// namespace App\Mail;
-class MyEvent implements ShouldBroadcast
-{
-  use Dispatchable, InteractsWithSockets, SerializesModels;
-
-  public $message;
-
-  public function __construct($message)
-  {
-      $this->message = $message;
-  }
-
-  public function broadcastOn()
-  {
-      return ['appemergencia'];
-  }
-
-  public function broadcastAs()
-  {
-      return 'my-event';
-  }
-}
 
 class AuthController extends Controller
 {   
-    public function sendResetLinkEmail(Request $request)
+    /** 
+     * Por Implementar
+     */
+    // public function sendResetLinkEmail(Request $request)
+    // {
+    //     $this->validateEmail($request);
+    //     $status = $this->broker()->sendResetLink(
+    //         $request->only('email')
+    //     );
+    //     if ($status === Password::RESET_LINK_SENT) {
+    //         return response()->json(['message' => 'Correo de restablecimiento de contraseña enviado']);
+    //     }
+    //     return response()->json(['error' => 'No se pudo enviar el correo de restablecimiento de contraseña']);
+
+    // }
+
+    public function register(Request $request) 
     {
-        $this->validateEmail($request);
-        $status = $this->broker()->sendResetLink(
-            $request->only('email')
-        );
-        if ($status === Password::RESET_LINK_SENT) {
-            return response()->json(['message' => 'Correo de restablecimiento de contraseña enviado']);
-        }
-        return response()->json(['error' => 'No se pudo enviar el correo de restablecimiento de contraseña']);
-
-    }
-
-
-    function register(Request $request) {
         // Valida los datos de entrada
         $request->validate([
             'name' => 'required|string|max:255',
@@ -111,8 +80,8 @@ class AuthController extends Controller
         ]);
     }
 
-
-    function login(Request $request){
+    public function login(Request $request)
+    {
         
         $credentials = $request->only('email','password');
         if (!Auth::attempt($credentials)) {
@@ -130,29 +99,47 @@ class AuthController extends Controller
         ]);
     }
 
-    function infouser(Request $request) {
+    public function infouser(Request $request) 
+    {
         return $request->user();
     }
 
-    function create_sos(){
+   public function create_sos()
+   {    
+        /**
+         * Verifica que un SoS no sea guardado si el rango de horas es menos de 1 horas.
+        */
+        $verify = sos::isUserSosSpam(auth()->user()->id, request('fecha'), request('hora'));
+        $data =['msje'=>'sos_enviado'];
+        if($verify){
+            return response()->json($data, 200);
+        }
+        /**
+         * status se guarda por defecto 0 y atendido por vacío hasta que un poli envie el rescate.
+        */
+
         $obj= new sos();
         $obj->iduser=auth()->user()->id;
         $obj->latitud=request('latitud');
-        $obj->longitud=request('longitud');#
-        // $obj->celular=request('celular');#
+        $obj->longitud=request('longitud');
         $obj->tipo=request('tipo');
         $obj->fecha=request('fecha');
         $obj->hora=request('hora');
-        //status se guarda por defecto 0 y 
-        //atendido por vacío hasta que un poli envie el rescate
         $obj->save();
-        $data =['msje'=>'sos_enviado'];
+       
         
-        //lanza el evento para los clientes
-        event(new MyEvent('envio_sos'));
-
-        return response()->json($data);
-    }
-
+        /**
+         * Lanza un evento para los administradores.
+        */
+        event(new AlertaSoS(
+            $obj->iduser,
+            $obj->latitud,
+            $obj->longitud,
+            $obj->tipo,
+            $obj->fecha,
+            $obj->hora
+        ));
+        return response()->json($data, 200);
+   }
 
 }
