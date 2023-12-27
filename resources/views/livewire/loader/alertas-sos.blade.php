@@ -15,7 +15,7 @@
                             </div>
                         </a>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    {{-- <li class="nav-item" role="presentation">
                         <a class="nav-link" data-bs-toggle="tab" href="#mensajes-sos" role="tab" aria-selected="false">
                             <div class="d-flex align-items-center">
                                 <div class="tab-icon"><i class="bx bxs-home font-18 me-1"></i>
@@ -23,7 +23,7 @@
                                 <div class="tab-title">MENSAJES SOS</div>
                             </div>
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
                 <div class="tab-content py-3">
                     <div class="tab-pane fade active show" id="alertas-sos" role="tabpanel">
@@ -55,7 +55,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="tab-pane fade" id="mensajes-sos" role="tabpanel">
+                    {{-- <div class="tab-pane fade" id="mensajes-sos" role="tabpanel">
                         <table class="table mb-0">
                             <thead>
                                 <tr>
@@ -74,7 +74,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
